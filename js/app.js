@@ -26,3 +26,12 @@ const square8 = document.querySelector('sq8');
 
 /*-------------------------------- Functions --------------------------------*/
 
+
+function init() {
+  squaresArr = [null,null,null,null,null,null,null,null,null];
+  turn = 1;
+  isWinner = null;
+  render();
+}
+
+
