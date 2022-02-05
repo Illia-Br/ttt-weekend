@@ -8,21 +8,25 @@ let squaresArr, turn, winner;
 
 /*------------------------ Cached Element References ------------------------*/
 
-const message = document.querySelector('message');
+const message = document.querySelector('#message');
+const resetButton = document.querySelector('.reset');
+// const square0 = document.querySelector('#sq0');
+// const square1 = document.querySelector('#sq1');
+// const square2 = document.querySelector('#sq2');
+// const square3 = document.querySelector('#sq3');
+// const square4 = document.querySelector('#sq4');
+// const square5 = document.querySelector('#sq5');
+// const square6 = document.querySelector('#sq6');
+// const square7 = document.querySelector('#sq7');
+// const square8 = document.querySelector('#sq8');
 
-const square0 = document.querySelector('#sq0');
-const square1 = document.querySelector('#sq1');
-const square2 = document.querySelector('#sq2');
-const square3 = document.querySelector('#sq3');
-const square4 = document.querySelector('#sq4');
-const square5 = document.querySelector('#sq5');
-const square6 = document.querySelector('#sq6');
-const square7 = document.querySelector('#sq7');
-const square8 = document.querySelector('#sq8');
+const allSquares = document.querySelectorAll('.square');
 
 /*----------------------------- Event Listeners -----------------------------*/
 
-document.querySelectorAll('.square').forEach(element => element.addEventListener('click', handleClick));
+allSquares.forEach(element => element.addEventListener('click', handleClick));
+
+resetButton.addEventListener('click', init);
 
 /*-------------------------------- Functions --------------------------------*/
 
@@ -32,7 +36,8 @@ function init() {
   squaresArr = [null,null,null,null,null,null,null,null,null];
   turn = 1;
   winner = null;
-  render();
+  resetButton.setAttribute("hidden", true);
+  
 }
 
 function handleClick(evt) {
@@ -41,10 +46,11 @@ function handleClick(evt) {
     return;
   }
   squaresArr[idx] = turn;
+  console.log(squaresArr);
   getWinner(turn);
   console.log(winner);
-  // turn *= -1;
-  console.log(squaresArr);
+  render(idx);
+  turn *= -1;
 }
 
 function getWinner(num) {
@@ -61,8 +67,16 @@ function getWinner(num) {
   }
 }
 
-function render() {
-
+function render(idx) {
+  (turn === 1) ? allSquares[idx].textContent = 'X' : allSquares[idx].textContent = 'O';
+  resetButton.removeAttribute("hidden");
+  if (winner) {
+    (turn === 1) ? message.textContent = 'Player X won!' : message.textContent = 'Player O won!';
+  } else if (!squaresArr.some(square => square === null)) {
+    message.textContent = "It's a tie!";
+  } else {
+    (turn === 1) ? message.textContent = 'Player O' : message.textContent = 'Player X';
+  }
 }
 
 
