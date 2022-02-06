@@ -47,8 +47,8 @@ function handleClick(evt) {
   }
   squaresArr[idx] = turn;
   getWinner();
-  render();
   turn *= -1;
+  render();
 }
 
 function getWinner() {
@@ -79,12 +79,15 @@ function render() {
     }
   )
 
+  if (squaresArr.filter(square => square === null).length === 8) {
+    resetButton.removeAttribute("hidden");
+  }
+
   if (winner) {
-    (turn === 1) ? message.textContent = 'Player X won!' : message.textContent = 'Player O won!';
+    (winner === 1) ? message.textContent = 'Player X won!' : message.textContent = 'Player O won!';
   } else if (!squaresArr.some(square => square === null)) {
     message.textContent = "It's a tie!";
   } else {
-    (turn === 1) ? message.textContent = 'Player O' : message.textContent = 'Player X';
-    resetButton.removeAttribute("hidden");
+    (turn === 1) ? message.textContent = 'Player X' : message.textContent = 'Player O';
   }
 }
