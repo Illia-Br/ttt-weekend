@@ -37,7 +37,7 @@ function init() {
   turn = 1;
   winner = null;
   resetButton.setAttribute("hidden", true);
-  
+  render();
 }
 
 function handleClick(evt) {
@@ -46,37 +46,45 @@ function handleClick(evt) {
     return;
   }
   squaresArr[idx] = turn;
-  console.log(squaresArr);
-  getWinner(turn);
-  console.log(winner);
-  render(idx);
+  getWinner();
+  render();
   turn *= -1;
 }
 
-function getWinner(num) {
-  let indexArr = [];
-  squaresArr.forEach((square, index) => {
-    if (square === num) {
-      indexArr.push(index);
-    }
-  })
+function getWinner() {
+  let checker = 0;
   for (let i = 0; i < combinations.length; i++) {
-    if (indexArr.join('').includes(combinations[i].join(''))) {
-      return winner = num;
+    for (let n = 0; n < combinations[i].length; n++) {
+      if (squaresArr[combinations[i][n]] !== turn) {
+        checker = 0;
+        break;
+      } else {
+        checker += 1;
+      }
+      if (checker === 3)
+      return winner = turn;
     }
   }
 }
 
-function render(idx) {
-  (turn === 1) ? allSquares[idx].textContent = 'X' : allSquares[idx].textContent = 'O';
-  resetButton.removeAttribute("hidden");
+function render() {
+  squaresArr.forEach((square, index) => {
+    if (squaresArr[index] === 1) {
+      allSquares[index].textContent = 'X';
+    } else if (squaresArr[index] === -1) {
+      allSquares[index].textContent = 'O';
+    } else {
+      allSquares[index].textContent = '';
+    }
+    }
+  )
+
   if (winner) {
     (turn === 1) ? message.textContent = 'Player X won!' : message.textContent = 'Player O won!';
   } else if (!squaresArr.some(square => square === null)) {
     message.textContent = "It's a tie!";
   } else {
     (turn === 1) ? message.textContent = 'Player O' : message.textContent = 'Player X';
+    resetButton.removeAttribute("hidden");
   }
 }
-
-
