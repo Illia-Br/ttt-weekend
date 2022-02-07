@@ -29,6 +29,7 @@ function init() {
   turn = 1;
   winner = null;
   resetButton.setAttribute("hidden", true);
+  resetButton.textContent = "Call for recount";
   winImg.removeAttribute('src');
   render();
 }
@@ -74,7 +75,6 @@ function render() {
     }
     )
   
-
   if (squaresArr.filter(square => square === null).length === 8) {
     resetButton.removeAttribute("hidden");
   }
@@ -85,18 +85,19 @@ function render() {
     message.textContent = "Hmmmm... Looks like it's a tie! It seems we'll need another tour?";
     resetButton.textContent = 'Another tour'
   } else {
-    (turn === 1) ? message.textContent = 'Republicans, you go!' : message.textContent = 'Democrats, it\'s your turn now!';
+    (turn === 1) ? message.textContent = 'Team Red, you go!' : message.textContent = 'Team Blue, it\'s your turn now!';
   }
 }
 
 
 function renderWin() {
+  confetti.start(2000);
   if (winner === 1) {
-    message.textContent = 'Congratulations Republicans! You won! How about another poll?';
+    message.textContent = 'Congratulations team Red! You got all the votes here! How about another poll?';
     winImg.setAttribute('src', './images/repWin.gif')
    } else {
-     message.textContent = 'Congratulations Democrats! You won! How about another poll?';
+     message.textContent = 'Congratulations team Blue! You got all the votes here! How about another poll?';
      winImg.setAttribute('src', './images/demWin.gif')
    }
-    resetButton.textContent = 'Another poll';
+    resetButton.textContent = 'Try another poll';
 }
