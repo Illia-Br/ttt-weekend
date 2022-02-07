@@ -10,17 +10,9 @@ let squaresArr, turn, winner;
 
 const message = document.querySelector('#message');
 const resetButton = document.querySelector('.reset');
-// const square0 = document.querySelector('#sq0');
-// const square1 = document.querySelector('#sq1');
-// const square2 = document.querySelector('#sq2');
-// const square3 = document.querySelector('#sq3');
-// const square4 = document.querySelector('#sq4');
-// const square5 = document.querySelector('#sq5');
-// const square6 = document.querySelector('#sq6');
-// const square7 = document.querySelector('#sq7');
-// const square8 = document.querySelector('#sq8');
-
 const allSquares = document.querySelectorAll('.square');
+const allImg = document.querySelectorAll('.square-img');
+const winImg = document.querySelector('.win-img');
 
 /*----------------------------- Event Listeners -----------------------------*/
 
@@ -37,11 +29,12 @@ function init() {
   turn = 1;
   winner = null;
   resetButton.setAttribute("hidden", true);
+  winImg.removeAttribute('src');
   render();
 }
 
-function handleClick(evt) {
-  let idx = evt.target.id[2];
+function handleClick() {
+  let idx = this.id[2];
   if (squaresArr[idx] || winner) {
     return;
   }
@@ -70,24 +63,40 @@ function getWinner() {
 function render() {
   squaresArr.forEach((square, index) => {
     if (squaresArr[index] === 1) {
-      allSquares[index].textContent = 'X';
-    } else if (squaresArr[index] === -1) {
-      allSquares[index].textContent = 'O';
-    } else {
-      allSquares[index].textContent = '';
+      allImg[index].setAttribute('src', './images/rep.png');
+      } else if (squaresArr[index] === -1) {
+        allImg[index].setAttribute('src', './images/dem.png');
+      } else {
+        if (allImg[index].src) { 
+        allImg[index].removeAttribute('src');
+        }
+      }
     }
-    }
-  )
+    )
+  
 
   if (squaresArr.filter(square => square === null).length === 8) {
     resetButton.removeAttribute("hidden");
   }
 
   if (winner) {
-    (winner === 1) ? message.textContent = 'Player X won!' : message.textContent = 'Player O won!';
+    renderWin();
   } else if (!squaresArr.some(square => square === null)) {
-    message.textContent = "It's a tie!";
+    message.textContent = "Hmmmm... Looks like it's a tie! It seems we'll need another tour?";
+    resetButton.textContent = 'Another tour'
   } else {
-    (turn === 1) ? message.textContent = 'Player X' : message.textContent = 'Player O';
+    (turn === 1) ? message.textContent = 'Republicans, you go!' : message.textContent = 'Democrats, it\'s your turn now!';
   }
+}
+
+
+function renderWin() {
+  if (winner === 1) {
+    message.textContent = 'Congratulations Republicans! You won! How about another poll?';
+    winImg.setAttribute('src', './images/repWin.gif')
+   } else {
+     message.textContent = 'Congratulations Democrats! You won! How about another poll?';
+     winImg.setAttribute('src', './images/demWin.gif')
+   }
+    resetButton.textContent = 'Another poll';
 }
