@@ -55,8 +55,9 @@ function getWinner() {
       } else {
         checker += 1;
       }
-      if (checker === 3)
+      if (checker === 3) {
       return winner = turn;
+      }
     }
   }
 }
@@ -89,14 +90,13 @@ function render() {
   }
 }
 
-
 function renderWin() {
   confetti.start(2000);
   if (winner === 1) {
-    message.textContent = 'Congratulations team Red! You got all the votes here! How about another poll?';
+    message.textContent = 'Congratulations team Red! You\'ve got all the votes here! How about another poll?';
     winImg.setAttribute('src', './images/repWin.gif')
    } else {
-     message.textContent = 'Congratulations team Blue! You got all the votes here! How about another poll?';
+     message.textContent = 'Congratulations team Blue! You\'ve got all the votes here! How about another poll?';
      winImg.setAttribute('src', './images/demWin.gif')
    }
     resetButton.textContent = 'Try another poll';
